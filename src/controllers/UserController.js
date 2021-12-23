@@ -17,6 +17,21 @@ class UserController {
     async update(request, response) {
         const { id } = request.params;
         const { name, email } = request.body;
+        let result = await User.find({ where: { id: Number(id) } });
+        const user = result[0];
+
+        if (!user)
+            return response.status(400).json({ error: 'User not found!' });
+
+        result = await User.find({ where: { email } });
+        const userFoundByEmail = result[0];
+
+        if (userFoundByEmail && userFoundByEmail.id !== Number(id))
+            return response.status(400).json({ error: 'Email already exists!' });
+
+        await User.update({ name, email }, { where: { id } });
+
+        return response.status(204).send();
     }
 
     async delete(request, response) {
