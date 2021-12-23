@@ -8,16 +8,19 @@ class UserController {
     }
 
     async create(request, response) {
-        const { name, email } = req.body;
+        const { name, email } = request.body;
+        const user = await User.create({ name, email });
+
+        return response.status(201).json(user);
     }
 
     async update(request, response) {
-        const { id } = req.params;
-        const { name, email } = req.body;
+        const { id } = request.params;
+        const { name, email } = request.body;
     }
 
     async delete(request, response) {
-        const { id } = req.params;
+        const { id } = request.params;
     }
 }
 
