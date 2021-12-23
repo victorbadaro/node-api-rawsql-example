@@ -72,8 +72,23 @@ class User {
         return;
     }
 
-    async delete() {
+    async delete(filters) {
+        let query = 'DELETE FROM users';
 
+        if (filters)
+            Object.keys(filters).forEach(filter => {
+                query += ` ${filter.toUpperCase()}`;
+
+                Object.keys(filters[filter]).forEach(field => {
+                    if (filters[filter][field] !== null)
+                        query += ` ${field} = '${filters[filter][field]}'`;
+                    else
+                        query += ` ${field} = null`;
+                });
+            });
+
+        await database.query(query);
+        return;
     }
 }
 

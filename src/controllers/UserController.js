@@ -42,6 +42,14 @@ class UserController {
 
     async delete(request, response) {
         const { id } = request.params;
+        const result = await User.find({ where: { id } });
+        const user = result[0];
+
+        if (!user)
+            return response.status(400).json({ error: 'User not found!' });
+
+        await User.delete({ where: { id } });
+        return response.status(204).send();
     }
 }
 
