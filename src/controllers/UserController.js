@@ -7,6 +7,17 @@ class UserController {
         return response.json(users);
     }
 
+    async find(request, response) {
+        const { id } = request.params;
+        const result = await User.find({ where: { id } });
+        const user = result[0];
+
+        if (!user)
+            return response.status(400).json({ error: 'User not found!' });
+
+        return response.json(user);
+    }
+
     async create(request, response) {
         const { name, email } = request.body;
         const result = await User.find({ where: { email } });
