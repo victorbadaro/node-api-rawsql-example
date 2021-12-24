@@ -12,7 +12,7 @@ class Product {
                     if (filters[filter][field] !== null)
                         query += ` ${field} = '${filters[filter][field]}'`;
                     else
-                        query = ` ${field} = null`;
+                        query += ` ${field} = null`;
                 });
             });
 
